@@ -118,7 +118,7 @@ class MenuDocument(Document):
                 json.update({'order': self.Order})
             if self.Text is not None:
                 json.update({'text': self.Text})
-            else:
+            if self.Label is not None:
                 json.update({
                     'label': {
                         'type': str(self.GetLabelMediaType()),
