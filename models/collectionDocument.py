@@ -9,13 +9,15 @@ class CollectionDocument(Document):
     def __init__(self, itemType, items=[]):
         super().__init__(MediaType.Parse(CollectionDocument.MIME_TYPE))
 
-        self.Total = 0
         self.ItemType = itemType
         self.Items = items
 
     @staticmethod
     def Type():
         return MediaType.Parse(CollectionDocument.MIME_TYPE)
+
+    def Total(self):
+        return len(self.Items)
 
     def GetDocuments(self):
         return self.Items

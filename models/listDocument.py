@@ -34,6 +34,9 @@ class ListDocument(Document):
         self.Header = header
         self.Items = items
 
+    def Total(self):
+        return len(self.Items)
+
     def GetHeaderDocument(self):
         return self.Header
 
