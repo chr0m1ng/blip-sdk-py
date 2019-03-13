@@ -1,6 +1,6 @@
-from document import Document
-from mediaType import MediaType
 from plainTextDocument import PlainTextDocument
+from mediaType import MediaType
+from document import Document
 from enum import Enum
 
 
