@@ -4,9 +4,9 @@ from mediaType import MediaType
 
 class Message(Envelope):
 
-    def __init__(self, id, fromN, to):
+    def __init__(self, id=None, fromN=None, to=None, content=None):
         super().__init__(id, fromN, to)
-        self._content = None  # Document
+        self._content = content  # Document
 
     def Type(self):
         if self._content is not None:

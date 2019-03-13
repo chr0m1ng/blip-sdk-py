@@ -12,3 +12,8 @@ class Document:
 
     def GetMediaType(self):
         return self._mediaType
+
+    def ToJson(self):
+        return {
+            'type': self.GetMediaType()
+        }

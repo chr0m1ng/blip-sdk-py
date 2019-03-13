@@ -8,6 +8,10 @@ class PlainTextDocument(Document):
         super().__init__(MediaType.TextPlain)
         self.Value = value
 
+    @staticmethod
+    def Type():
+        return MediaType.TextPlain
+
     def __str__(self):
         return str(self.Value)
 

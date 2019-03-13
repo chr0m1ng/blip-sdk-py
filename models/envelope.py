@@ -4,20 +4,23 @@ import uuid
 
 class Envelope:
 
-    def __init__(self, id, fromN, to):
+    def __init__(self, id=None, fromN=None, to=None):
         if id is None:
             id = str(uuid.uuid4())
         self.Id = id  # String
-        if isinstance(fromN, str):
+        if fromN is not None and isinstance(fromN, str):
             fromN = Node.Parse(fromN)
-        if isinstance(to, str):
+        if to is not None and isinstance(to, str):
             to = Node.Parse(to)
         self.From = fromN
         self.To = to
 
     def ToJson(self):
-        return {
-            'id': self.Id,
-            'to': str(self.To),
-            'from': str(self.From)
+        json = {
+            'id': self.Id
         }
+        if self.To is not None:
+            json['to'] = str(self.To)
+        if self.From is not None:
+            json['from'] = str(self.From)
+        return json
