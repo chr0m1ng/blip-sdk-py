@@ -11,20 +11,26 @@ class ContainerDocument(Document):
         self.Value = value
 
     def GetDocument(self):
-        return self.Value
+        if self.Value is not None:
+            return self.Value
+        return None
 
     def GetDocumentJson(self):
-        return self.Value.ToJson()
+        if self.Value is not None:
+            return self.Value.ToJson()
+        return None
 
     def SetDocument(self, document):
         self.Value = document
 
-    @staticmethod
+    @property
     def Type():
         return MediaType.Parse(ContainerDocument.MIME_TYPE)
 
     def ValueType(self):
-        return self.Value.GetMediaType()
+        if self.Value is not None:
+            return self.Value.GetMediaType()
+        return None
 
     def ToJson(self):
         return {

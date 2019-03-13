@@ -11,7 +11,9 @@ class Document:
         self._mediaType = mediaType
 
     def GetMediaType(self):
-        return self._mediaType
+        if self._mediaType is not None:
+            return self._mediaType
+        return None
 
     def ToJson(self):
         return {

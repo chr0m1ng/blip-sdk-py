@@ -8,6 +8,7 @@ class Message(Envelope):
         super().__init__(id, fromN, to)
         self._content = content  # Document
 
+    @property
     def Type(self):
         if self._content is not None:
             return self._content.GetMediaType()
@@ -18,16 +19,20 @@ class Message(Envelope):
         self._content = document
 
     def GetDocument(self):
-        return self._content
+        if self._content is not None:
+            return self._content
+        return None
 
     def GetDocumentJson(self):
-        return self._content.ToJson()
+        if self._content is not None:
+            return self._content.ToJson()
+        return None
 
     def ToJson(self):
         return {
             **super().ToJson(),
             **{
-                'type': str(self.Type()),
+                'type': str(self.Type),
                 'content': self.GetDocumentJson()
             }
         }

@@ -20,7 +20,7 @@ class ChatStateDocument(Document):
         super().__init__(MediaType.Parse(ChatStateDocument.MIME_TYPE))
         self.State = chatState
 
-    @staticmethod
+    @property
     def Type():
         return MediaType.Parse(ChatStateDocument.MIME_TYPE)
 

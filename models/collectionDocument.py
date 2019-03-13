@@ -12,10 +12,11 @@ class CollectionDocument(Document):
         self.ItemType = itemType
         self.Items = items
 
-    @staticmethod
+    @property
     def Type():
         return MediaType.Parse(CollectionDocument.MIME_TYPE)
 
+    @property
     def Total(self):
         return len(self.Items)
 

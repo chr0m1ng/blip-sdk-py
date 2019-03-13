@@ -7,10 +7,14 @@ class Header:
         self.Value = value
 
     def GetMediaType(self):
-        return self.Value.GetMediaType()
+        if self.Value is not None:
+            return self.Value.GetMediaType()
+        return None
 
     def GetValueJson(self):
-        return self.Value.ToJson()
+        if self.Value is not None:
+            return self.Value.ToJson()
+        return None
 
     def ToJson(self):
         return {
@@ -34,31 +38,42 @@ class ListDocument(Document):
         self.Header = header
         self.Items = items
 
+    @property
     def Total(self):
-        return len(self.Items)
+        if self.Items is not None:
+            return len(self.Items)
+        return None
 
     def GetHeaderDocument(self):
-        return self.Header
+        if self.Header is not None:
+            return self.Header
+        return None
 
     def SetHeaderDocument(self, document):
         self.Header = Header(document)
 
     def GetHeaderJson(self):
-        return self.Header.ToJson()
+        if self.Header is not None:
+            return self.Header.ToJson()
+        return None
 
     def GetItems(self):
-        return self.Items
+        if self.Items is not None:
+            return self.Items
+        return None
 
     def GetItemsJson(self):
-        return [
-            {
-                'type': str(x.GetMediaType()),
-                'value': x.ToJson()
-            }
-            for x in self.Items
-        ]
+        if self.Items is not None:
+            return [
+                {
+                    'type': str(x.GetMediaType()),
+                    'value': x.ToJson()
+                }
+                for x in self.Items
+            ]
+        return None
 
-    @staticmethod
+    @property
     def Type():
         return MediaType.Parse(ListDocument.MIME_TYPE)
 

@@ -8,12 +8,14 @@ class PlainTextDocument(Document):
         super().__init__(MediaType.TextPlain)
         self.Value = value
 
-    @staticmethod
+    @property
     def Type():
         return MediaType.TextPlain
 
     def __str__(self):
-        return str(self.Value)
+        if self.Value is not None:
+            return str(self.Value)
+        return 'None'
 
     def ToJson(self):
         return str(self.Value)  # For plain/text we only need the text itself

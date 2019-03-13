@@ -33,6 +33,7 @@ class Command(Envelope):
         self.Status = None  # CommandStatus
         self.Reason = None  # Reason
 
+    @property
     def Type(self):
         return self.Resource.GetMediaType()
 
@@ -40,10 +41,14 @@ class Command(Envelope):
         self.Resource = document
 
     def GetDocument(self):
-        return self.Resource
+        if self.Resource is not None:
+            return self.Resource
+        return None
 
     def GetDocumentJson(self):
-        return self.Resource.ToJson()
+        if self.Resource is not None:
+            return self.Resource.ToJson()
+        return None
 
     def ToJson(self):
         return {
@@ -51,7 +56,7 @@ class Command(Envelope):
             **{
                 'method': self.Method,
                 'uri': self.Uri,
-                'type': self.Type(),
+                'type': self.Type,
                 'resource': self.GetDocumentJson()
             }
         }
