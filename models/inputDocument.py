@@ -1,5 +1,5 @@
 from plainTextDocument import PlainTextDocument
-from mediaType import MediaType
+from mediaType import MediaType as MT
 from document import Document
 from enum import Enum
 
@@ -11,13 +11,32 @@ class Rule(Enum):
 
 class Validation:
     def __init__(self, rule, mediaType=None):
-        if not isinstance(rule, Rule):
-            raise ValueError('The parameter "rule" must be a Rule Model')
-        if rule == Rule.Type:
-            if mediaType is None:
-                raise TypeError
+
         self.MediaType = mediaType
         self.Rule = rule
+
+    @property
+    def Rule(self):
+        return self.__Rule
+
+    @Rule.setter
+    def Rule(self, rule):
+        if not isinstance(rule, Rule):
+            raise ValueError('"Rule" must be a Rule')
+        if rule == Rule.Type:
+            if self.MediaType is None:
+                raise TypeError('"MediaType" cannot be None to Rule.Type')
+        self.__Rule = rule
+
+    @property
+    def MediaType(self):
+        return self.__MediaType
+
+    @MediaType.setter
+    def MediaType(self, mediaType):
+        if mediaType is not None and not isinstance(mediaType, MT):
+            raise ValueError('"MediaType" must be MediaType')
+        self.__MediaType = mediaType
 
     def ToJson(self):
         json = {
@@ -34,24 +53,33 @@ class _InputDocument(Document):
     MIME_TYPE = 'application/vnd.lime.input+json'
 
     def __init__(self, label=None, validation=None):
-        super().__init__(MediaType.Parse(_InputDocument.MIME_TYPE))
+        super().__init__(MT.Parse(_InputDocument.MIME_TYPE))
 
+        self.Label = label
+        self.Validation = validation
+
+    @property
+    def Label(self):
+        return self.__Label
+
+    @Label.setter
+    def Label(self, label):
         if isinstance(label, str):
             label = PlainTextDocument(label)
-        self.Label = label  # PlainText
-        if isinstance(validation, Validation):
-            self.Validation = validation
-        elif validation is not None:
-            raise ValueError(
-                'The parameter "validation" must be a Validation Model')
+        if label is None or isinstance(label, PlainTextDocument):
+            self.__Label = label
+        else:
+            raise ValueError('"Label" must be a PlainTextDocument')
 
-    def GetLabelDocument(self):
-        if self.Label is not None:
-            return self.Label
-        return None
+    @property
+    def Validation(self):
+        return self.__Validation
 
-    def SetLabelDocument(self, document):
-        self.Label = document
+    @Validation.setter
+    def Validation(self, validation):
+        if validation is not None and not isinstance(validation, Validation):
+            raise ValueError('"Validation" must be a Validation')
+        self.__Validation = validation
 
     def GetLabelDocumentJson(self):
         if self.Label is not None:
@@ -64,9 +92,7 @@ class _InputDocument(Document):
         return None
 
     def GetValidation(self):
-        if self.Validation is not None:
-            return self.Validation
-        return None
+        return self.Validation
 
     def GetValidationJson(self):
         if self.Validation is not None:
@@ -89,4 +115,4 @@ class _InputDocument(Document):
 
 class InputDocument(_InputDocument):
 
-    Type = MediaType.Parse(_InputDocument.MIME_TYPE)
+    Type = MT.Parse(_InputDocument.MIME_TYPE)

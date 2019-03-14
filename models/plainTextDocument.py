@@ -9,6 +9,16 @@ class PlainTextDocument(Document):
         self.Value = value
 
     @property
+    def Value(self):
+        return self.__Value
+
+    @Value.setter
+    def Value(self, value):
+        if not isinstance(value, str):
+            raise ValueError('"Value" must be a string')
+        self.__Value = value
+
+    @property
     def Type(self):
         return MediaType.TextPlain
 

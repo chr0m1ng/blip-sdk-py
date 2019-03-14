@@ -20,6 +20,17 @@ class _ChatStateDocument(Document):
         super().__init__(MediaType.Parse(_ChatStateDocument.MIME_TYPE))
         self.State = chatState
 
+    @property
+    def State(self):
+        return self.__State
+
+    @State.setter
+    def State(self, chatState):
+        if chatState is not None and not isinstance(chatState, ChatState):
+            raise ValueError(
+                '"ChatState" must be a ChatState Model')
+        self.__State = chatState
+
     def ToJson(self):
         return {
             'state': self.State

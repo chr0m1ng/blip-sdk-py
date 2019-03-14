@@ -13,11 +13,32 @@ class _CollectionDocument(Document):
         self.Items = items
 
     @property
+    def ItemType(self):
+        return self.__ItemType
+
+    @ItemType.setter
+    def ItemType(self, itemType):
+        if itemType is not None and not isinstance(itemType, Document):
+            raise ValueError('"ItemType" must be a MediaType')
+
+    @property
+    def Items(self):
+        return self.__Items
+
+    @Items.setter
+    def Items(self, items):
+        if not isinstance(items, list):
+            raise ValueError(
+                '"Items" must be a list of Document')
+        for i in items:
+            if not isinstance(i, Document):
+                raise ValueError('All Items must be a Document')
+
+        self.__Items = items
+
+    @property
     def Total(self):
         return len(self.Items)
-
-    def GetDocuments(self):
-        return self.Items
 
     def GetDocumentsJson(self):
         return [x.ToJson() for x in self.Items]

@@ -1,6 +1,7 @@
+from document import Document
 from envelope import Envelope
-from envelopeId import EnvelopeId
 from message import Message
+from reason import Reason
 from enum import Enum
 
 
@@ -16,6 +17,7 @@ class CommandMethod(Enum):
 
 
 class CommandStatus(Enum):
+
     Pending = 'pending'
     Success = 'success'
     Failure = 'failure'
@@ -24,14 +26,64 @@ class CommandStatus(Enum):
 class Command(Envelope):
 
     def __init__(self, id=None, uri=None, resource=None, method=None,
-                 status=None, reaspon=None):
+                 status=None, reason=None):
         super().__init__(id)
 
-        self.Uri = None  # LimeUri
-        self.Resource = None  # Document
-        self.Method = None  # CommandMethod
-        self.Status = None  # CommandStatus
-        self.Reason = None  # Reason
+        self.Uri = uri
+        self.Resource = resource  # Document
+        self.Method = method  # CommandMethod
+        self.Status = status  # CommandStatus
+        self.Reason = reason  # Reason
+
+    @property
+    def Uri(self):
+        return self.__Uri
+
+    @Uri.setter
+    def Uri(self, uri):
+        if uri is not None and not isinstance(uri, str):
+            raise ValueError('"Uri" must be a string')
+        self.__Uri = uri
+
+    @property
+    def Resource(self):
+        return self.__Resource
+
+    @Resource.setter
+    def Resource(self, resource):
+        if resource is not None and not isinstance(resource, Document):
+            raise ValueError('"Resource" must be a Document')
+        self.__Resource = resource
+
+    @property
+    def Method(self):
+        return self.__Method
+
+    @Method.setter
+    def Method(self, method):
+        if method is not None and not isinstance(method, CommandMethod):
+            raise ValueError('"Method" must be a CommandMethod')
+        self.__Method = method
+
+    @property
+    def Status(self):
+        return self.__Status
+
+    @Status.setter
+    def Status(self, status):
+        if status is not None and not isinstance(status, CommandStatus):
+            raise ValueError('"Status" must be a CommandStatus')
+        self.__Status = status
+
+    @property
+    def Reason(self):
+        return self.__Reason
+
+    @Reason.setter
+    def Reason(self, reason):
+        if reason is not None and not isinstance(reason, Reason):
+            raise ValueError('"Reason" must be a Reason')
+        self.__Reason = reason
 
     def Type(self):
         return self.Resource.GetMediaType()
@@ -40,9 +92,7 @@ class Command(Envelope):
         self.Resource = document
 
     def GetDocument(self):
-        if self.Resource is not None:
-            return self.Resource
-        return None
+        return self.Resource
 
     def GetDocumentJson(self):
         if self.Resource is not None:

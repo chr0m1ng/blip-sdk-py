@@ -1,26 +1,6 @@
 from mediaType import MediaType
 from document import Document
-
-
-class Header:
-    def __init__(self, value=None):
-        self.Value = value
-
-    def GetMediaType(self):
-        if self.Value is not None:
-            return self.Value.GetMediaType()
-        return None
-
-    def GetValueJson(self):
-        if self.Value is not None:
-            return self.Value.ToJson()
-        return None
-
-    def ToJson(self):
-        return {
-            'type': str(self.GetMediaType()),
-            'value': self.GetValueJson()
-        }
+from header import Header
 
 
 class _ListDocument(Document):
@@ -29,14 +9,34 @@ class _ListDocument(Document):
     def __init__(self, header=None, items=[]):
         super().__init__(MediaType.Parse(_ListDocument.MIME_TYPE))
 
-        if header is not None and not isinstance(header, Header) \
-                and isinstance(header, Document):
-            header = Header(header)
-        elif header is not None and not isinstance(header, Header):
-            raise ValueError('The parameter "header" must be a Header model')
-
         self.Header = header
         self.Items = items
+
+    @property
+    def Header(self):
+        return self.__Header
+
+    @Header.setter
+    def Header(self, header):
+        if header is not None and not isinstance(header, Header):
+            if isinstance(header, Document):
+                header = Header(header)
+            else:
+                raise ValueError('"Header" must be a Header')
+        self.__Header = header
+
+    @property
+    def Items(self):
+        return self.__Items
+
+    @Items.setter
+    def Items(self, items):
+        if not isinstance(items, list):
+            raise ValueError('"Items" must be a list of Document')
+        for i in items:
+            if not isinstance(i, Document):
+                raise ValueError('All Items must be a Document')
+        self.__Items = items
 
     @property
     def Total(self):

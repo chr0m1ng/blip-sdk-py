@@ -1,5 +1,6 @@
 from mediaType import MediaType
 from document import Document
+from header import Header
 from enum import Enum
 
 
@@ -15,20 +16,46 @@ class _MenuDocument(Document):
 
     def __init__(self, scope=Scope.Transient, header=None, options=[]):
         super().__init__(MediaType.Parse(_MenuDocument.MIME_TYPE))
-        for o in options:
-            if not isinstance(o, _MenuDocument.Option):
-                raise ValueError(
-                    'The parameter "options" must be a list of Option model')
-        if not isinstance(scope, Scope):
-            raise ValueError('The parameter "scope" must be a Scope model')
-        if header is not None and not (isinstance(header, Document) or
-                                       isinstance(header, str)):
-            raise ValueError(
-                'The parameter "header" must be a Document or a string')
 
         self.Scope = scope
         self.Header = header
         self.Options = options
+
+    @property
+    def Scope(self):
+        return self.__Scope
+
+    @Scope.setter
+    def Scope(self, scope):
+        if not isinstance(scope, Scope):
+            raise ValueError('"Scope" must be a Scope')
+        self.__Scope = scope
+
+    @property
+    def Header(self):
+        return self.__Header
+
+    @Header.setter
+    def Header(self, header):
+        if header is not None and not isinstance(header, Header):
+            if isinstance(header, Document):
+                header = Header(header)
+            elif not isinstance(header, str):
+                raise ValueError('"Header" must be a Header or string')
+        self.__Header = header
+
+    @property
+    def Options(self):
+        return self.__Options
+
+    @Options.setter
+    def Options(self, options):
+        if not isinstance(options, list):
+            raise ValueError('"Options" must be a list of Options')
+        for o in options:
+            if not isinstance(o, _MenuDocument.Option):
+                raise ValueError('All items must be Options')
+        self.__Options = options
 
     @property
     def Total(self):
@@ -55,34 +82,60 @@ class _MenuDocument(Document):
         if isinstance(self.Header, str):
             json.update({'text': self.Header})
         else:
-            json.update({
-                'header': {
-                    'type': str(self.GetHeaderType()),
-                    'value': self.GetHeaderJson()
-                }
-            })
+            json.update({'header': self.GetHeaderJson()})
+
         json.update({'options': self.GetOptionsJson()})
 
         return json
 
     class Option:
         def __init__(self, order=None, label=None, value=None, text=None):
-            if order is not None and not isinstance(order, int):
-                raise ValueError('The parameter "order" must be a integer')
-            if label is not None and not isinstance(label, Document):
-                raise ValueError(
-                    'The parameter "label" must be a Document model')
-            if value is not None and not (isinstance(value, dict) or
-                                          isinstance(value, Document)):
-                raise ValueError(
-                    'The parameter "value" must be a Document model or a Dict')
-            if text is not None and not isinstance(text, str):
-                raise ValueError('The parameter "text" must be a string')
 
             self.Order = order
             self.Label = label
             self.Value = value
             self.Text = text
+
+        @property
+        def Order(self):
+            return self.__Order
+
+        @Order.setter
+        def Order(self, order):
+            if order is not None and not isinstance(order, int):
+                raise ValueError('"Order" must be a integer')
+            self.__Order = order
+
+        @property
+        def Label(self):
+            return self.__Label
+
+        @Label.setter
+        def Label(self, label):
+            if label is not None and not isinstance(label, Document):
+                raise ValueError('"Label" must be a Document')
+            self.__Label = label
+
+        @property
+        def Value(self):
+            return self.__Value
+
+        @Value.setter
+        def Value(self, value):
+            if value is not None and not (isinstance(value, dict) or
+                                          isinstance(value, Document)):
+                raise ValueError('"Value" must be a Document or Dict')
+            self.__Value = value
+
+        @property
+        def Text(self):
+            return self.__Text
+
+        @Text.setter
+        def Text(self, text):
+            if text is not None and not isinstance(text, str):
+                raise ValueError('"Text" must be a string')
+            self.__Text = text
 
         def GetLabelDocumentJson(self):
             if self.Label is not None:
