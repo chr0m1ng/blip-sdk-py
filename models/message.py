@@ -15,7 +15,8 @@ class Message(Envelope):
 
     @Content.setter
     def Content(self, content):
-        if content is not None and not isinstance(content, Document):
+        if content is not None and not isinstance(content, Document) and \
+                not isinstance(content, dict):
             raise ValueError('"Content" must be a Document')
         self.__Content = content
 
