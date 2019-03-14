@@ -2,13 +2,13 @@ from mediaType import MediaType
 from document import Document
 
 
-class MediaLinkDocument(Document):
+class _MediaLinkDocument(Document):
 
     MIME_TYPE = 'application/vnd.lime.media-link+json'
 
     def __init__(self, mimeType=None, size=None, aspectRatio=None, uri=None,
                  title=None, text=None, previewType=None, previewUri=None):
-        super().__init__(MediaType.Parse(MediaLinkDocument.MIME_TYPE))
+        super().__init__(MediaType.Parse(_MediaLinkDocument.MIME_TYPE))
 
         self.MimeType = mimeType
         self.Size = size
@@ -18,10 +18,6 @@ class MediaLinkDocument(Document):
         self.Text = text
         self.PreviewType = previewType
         self.PreviewUri = previewUri
-
-    @property
-    def Type():
-        return MediaType.Parse(MediaLinkDocument.MIME_TYPE)
 
     def ToJson(self):
         json = {
@@ -43,3 +39,8 @@ class MediaLinkDocument(Document):
             json.update({'previewUri': self.PreviewUri})
 
         return json
+
+
+class MediaLinkDocument(_MediaLinkDocument):
+
+    Type = MediaType.Parse(_MediaLinkDocument.MIME_TYPE)

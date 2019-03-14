@@ -9,7 +9,7 @@ class PlainTextDocument(Document):
         self.Value = value
 
     @property
-    def Type():
+    def Type(self):
         return MediaType.TextPlain
 
     def __str__(self):

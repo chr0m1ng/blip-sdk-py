@@ -33,7 +33,6 @@ class Command(Envelope):
         self.Status = None  # CommandStatus
         self.Reason = None  # Reason
 
-    @property
     def Type(self):
         return self.Resource.GetMediaType()
 

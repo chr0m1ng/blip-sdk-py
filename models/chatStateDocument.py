@@ -12,19 +12,20 @@ class ChatState(Enum):
     Gone = 'gone'
 
 
-class ChatStateDocument(Document):
+class _ChatStateDocument(Document):
 
     MIME_TYPE = 'application/vnd.lime.chatstate+json'
 
     def __init__(self, chatState=None):
-        super().__init__(MediaType.Parse(ChatStateDocument.MIME_TYPE))
+        super().__init__(MediaType.Parse(_ChatStateDocument.MIME_TYPE))
         self.State = chatState
-
-    @property
-    def Type():
-        return MediaType.Parse(ChatStateDocument.MIME_TYPE)
 
     def ToJson(self):
         return {
             'state': self.State
         }
+
+
+class ChatStateDocument(_ChatStateDocument):
+
+    Type = MediaType.Parse(_ChatStateDocument.MIME_TYPE)

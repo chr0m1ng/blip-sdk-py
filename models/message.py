@@ -11,6 +11,8 @@ class Message(Envelope):
     @property
     def Type(self):
         if self._content is not None:
+            if isinstance(self._content, dict):
+                return MediaType.ApplicationJson
             return self._content.GetMediaType()
         else:
             return None
@@ -25,6 +27,8 @@ class Message(Envelope):
 
     def GetDocumentJson(self):
         if self._content is not None:
+            if isinstance(self._content, dict):
+                return self._content
             return self._content.ToJson()
         return None
 

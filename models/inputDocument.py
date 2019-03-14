@@ -29,12 +29,12 @@ class Validation:
         return json
 
 
-class InputDocument(Document):
+class _InputDocument(Document):
 
     MIME_TYPE = 'application/vnd.lime.input+json'
 
     def __init__(self, label=None, validation=None):
-        super().__init__(MediaType.Parse(InputDocument.MIME_TYPE))
+        super().__init__(MediaType.Parse(_InputDocument.MIME_TYPE))
 
         if isinstance(label, str):
             label = PlainTextDocument(label)
@@ -76,10 +76,6 @@ class InputDocument(Document):
     def SetValidation(self, validation):
         self.Validation = validation
 
-    @property
-    def Type():
-        return MediaType.Parse(InputDocument.MIME_TYPE)
-
     def ToJson(self):
         return {
             'label': {
@@ -89,3 +85,8 @@ class InputDocument(Document):
             },
             'validation': self.GetValidationJson()
         }
+
+
+class InputDocument(_InputDocument):
+
+    Type = MediaType.Parse(_InputDocument.MIME_TYPE)

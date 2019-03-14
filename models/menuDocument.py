@@ -9,14 +9,14 @@ class Scope(Enum):
     Immediate = 'imemediate'
 
 
-class MenuDocument(Document):
+class _MenuDocument(Document):
 
     MIME_TYPE = 'application/vnd.lime.select+json'
 
     def __init__(self, scope=Scope.Transient, header=None, options=[]):
-        super().__init__(MediaType.Parse(MenuDocument.MIME_TYPE))
+        super().__init__(MediaType.Parse(_MenuDocument.MIME_TYPE))
         for o in options:
-            if not isinstance(o, MenuDocument.Option):
+            if not isinstance(o, _MenuDocument.Option):
                 raise ValueError(
                     'The parameter "options" must be a list of Option model')
         if not isinstance(scope, Scope):
@@ -33,10 +33,6 @@ class MenuDocument(Document):
     @property
     def Total(self):
         return len(self.Options)
-
-    @property
-    def Type(self):
-        return MediaType.Parse(MenuDocument.MIME_TYPE)
 
     def GetOptionsJson(self):
         return [x.ToJson() for x in self.Options]
@@ -118,7 +114,7 @@ class MenuDocument(Document):
                 json.update({'order': self.Order})
             if self.Text is not None:
                 json.update({'text': self.Text})
-            if self.Label is not None:
+            elif self.Label is not None:
                 json.update({
                     'label': {
                         'type': str(self.GetLabelMediaType()),
@@ -139,3 +135,8 @@ class MenuDocument(Document):
                 })
 
             return json
+
+
+class MenuDocument(_MenuDocument):
+
+    Type = MediaType.Parse(_MenuDocument.MIME_TYPE)

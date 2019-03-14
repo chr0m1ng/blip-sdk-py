@@ -2,19 +2,15 @@ from document import Document
 from mediaType import MediaType
 
 
-class CollectionDocument(Document):
+class _CollectionDocument(Document):
 
     MIME_TYPE = "application/vnd.lime.collection+json"
 
     def __init__(self, itemType, items=[]):
-        super().__init__(MediaType.Parse(CollectionDocument.MIME_TYPE))
+        super().__init__(MediaType.Parse(_CollectionDocument.MIME_TYPE))
 
         self.ItemType = itemType
         self.Items = items
-
-    @property
-    def Type():
-        return MediaType.Parse(CollectionDocument.MIME_TYPE)
 
     @property
     def Total(self):
@@ -31,3 +27,8 @@ class CollectionDocument(Document):
             'itemType': str(self.ItemType),
             'items': self.GetDocumentsJson()
         }
+
+
+class CollectionDocument(_CollectionDocument):
+
+    Type = MediaType.Parse(_CollectionDocument.MIME_TYPE)

@@ -23,11 +23,11 @@ class Header:
         }
 
 
-class ListDocument(Document):
+class _ListDocument(Document):
     MIME_TYPE = 'application/vnd.lime.list+json'
 
     def __init__(self, header=None, items=[]):
-        super().__init__(MediaType.Parse(ListDocument.MIME_TYPE))
+        super().__init__(MediaType.Parse(_ListDocument.MIME_TYPE))
 
         if header is not None and not isinstance(header, Header) \
                 and isinstance(header, Document):
@@ -73,12 +73,13 @@ class ListDocument(Document):
             ]
         return None
 
-    @property
-    def Type():
-        return MediaType.Parse(ListDocument.MIME_TYPE)
-
     def ToJson(self):
         return {
             'header': self.GetHeaderJson(),
             'items': self.GetItemsJson()
         }
+
+
+class ListDocument(_ListDocument):
+
+    Type = MediaType.Parse(_ListDocument.MIME_TYPE)
