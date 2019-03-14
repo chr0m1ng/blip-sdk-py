@@ -27,7 +27,7 @@ class Identity:
 
     @Domain.setter
     def Domain(self, domain):
-        if not isinstance(domain, str):
+        if domain is not None and not isinstance(domain, str):
             raise ValueError('"Domain" must be a string')
         self.__Domain = domain
 

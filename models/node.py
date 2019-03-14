@@ -6,7 +6,7 @@ class Node(Identity):
 
     ''' Initializes a new instance of the Node class.'''
 
-    def __init__(self, name, domain, instance=None):
+    def __init__(self, name, domain=None, instance=None):
         super().__init__(name, domain)
         self.Instance = instance
 
