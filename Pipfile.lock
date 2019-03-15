@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "3cf41a46c61aafbc9af6ae2bbbfde0aded432febd1d443af42e618e3847dd3f9"
+            "sha256": "dcb5fa28480419f5cd99d5fba5f37e84954b1e164330253c3097dcdba40ae202"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -30,13 +30,6 @@
             ],
             "version": "==3.0.4"
         },
-        "deprecated": {
-            "hashes": [
-                "sha256:2f293eb0eee34b1fcf3da530fe8fc4b0d71d43ddc2dc78e2ffb444b6c0868557",
-                "sha256:749f6cdcfbdc3f79258f8154bad43fced95adc632c337675d0385959895894bc"
-            ],
-            "version": "==1.2.5"
-        },
         "idna": {
             "hashes": [
                 "sha256:c357b3f628cf53ae2c4c05627ecc484553142ca23264e593d327bcde5e9c3407",
@@ -44,19 +37,12 @@
             ],
             "version": "==2.8"
         },
-        "jsonpickle": {
+        "lime-python": {
             "hashes": [
-                "sha256:0231d6f7ebc4723169310141352d9c9b7bbbd6f3be110cf634575d2bf2af91f0",
-                "sha256:625098cc8e5854b8c23b587aec33bc8e33e0e597636bfaca76152249c78fe5c1"
-            ],
-            "version": "==1.1"
-        },
-        "lime-models": {
-            "hashes": [
-                "sha256:de4f08608c8ab8b30eb5234403015476870b4d2a8a624efb0c6e144a87958fd1"
+                "sha256:1072aa86b1d1694eb452aabbb8b240f8214450d9dfbfe65df288c87e81114ce5"
             ],
             "index": "pypi",
-            "version": "==0.1"
+            "version": "==0.3"
         },
         "requests": {
             "hashes": [
@@ -72,12 +58,6 @@
                 "sha256:de9529817c93f27c8ccbfead6985011db27bd0ddfcdb2d86f3f663385c6a9c22"
             ],
             "version": "==1.24.1"
-        },
-        "wrapt": {
-            "hashes": [
-                "sha256:4aea003270831cceb8a90ff27c4031da6ead7ec1886023b80ce0dfe0adf61533"
-            ],
-            "version": "==1.11.1"
         }
     },
     "develop": {}
